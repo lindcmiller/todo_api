@@ -34,6 +34,7 @@ RSpec.describe TodosController, type: :controller do
     let(:todo) { create(:todo) }
     it "deletes a todo" do
       todo
+      expect(response).to have_http_status(:ok)
       expect { delete :destroy, id: todo.id}.to change{ Todo.count }.by(-1)
     end
   end
