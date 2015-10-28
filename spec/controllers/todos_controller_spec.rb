@@ -24,8 +24,7 @@ RSpec.describe TodosController, type: :controller do
       it "does not create a todo" do
         post :create, todo: invalid_params, format: :json
         expect(response).to have_http_status(422)
-        errors_json = JSON.parse(response.body)
-        expect(errors_json["title"]).to include("can't be blank")
+        expect(json["title"]).to include("can't be blank")
         expect { post :create, todo: invalid_params, format: :json}.to_not change{ Todo.count }
       end
     end
@@ -38,4 +37,10 @@ RSpec.describe TodosController, type: :controller do
       expect { delete :destroy, id: todo.id}.to change{ Todo.count }.by(-1)
     end
   end
+end
+
+private
+
+def json
+  JSON.parse(response.body)
 end
